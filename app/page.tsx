@@ -1,65 +1,393 @@
-import Image from "next/image";
+// app/page.tsx
+"use client";
 
-export default function Home() {
+import Image from "next/image";
+import { motion, useReducedMotion } from "framer-motion";
+import type { ReactNode } from "react";
+
+const projects = [
+  {
+    title: "Veilscope",
+    description:
+      "Web application and marketing website for an AI investment algorithm.",
+    tech: ["Next.js", "Web Application", "Investing"],
+    link: "https://veilscope.com",
+  },
+  {
+    title: "Local Network Chat App",
+    description:
+      "Local network chat application enabling real-time messaging without internet access.",
+    tech: ["React", "Node.js", "PostgreSQL"],
+    link: "https://github.com/brodyBroughton/simple-local-network-chat-app",
+  },
+  {
+    title: "Note Taking App",
+    description:
+      "Simple shell script-based note-taking application for quick and easy note management in terminal.",
+    tech: ["Shell", "Linux", "Bash"],
+    link: "https://github.com/brodyBroughton/note-to-shelf-brodyBroughton",
+  },
+];
+
+const skills = [
+  {
+    category: "Frontend",
+    icon: "💻",
+    items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "HTML5", "CSS3"],
+  },
+  {
+    category: "Backend",
+    icon: "🧠",
+    items: ["Node.js", "Express", "REST APIs"],
+  },
+  {
+    category: "Tools & Other",
+    icon: "🛠️",
+    items: ["Git & GitHub", "VS Code", "Figma", "Vercel"],
+  },
+];
+
+type FadeInSectionProps = {
+  id?: string;
+  ariaLabelledBy?: string;
+  className?: string;
+  children: ReactNode;
+  delay?: number;
+  direction?: "up" | "down" | "left" | "right";
+};
+
+/**
+ * FadeInSection
+ * - Slides + fades content in when it enters the viewport
+ * - Uses whileInView + viewport.once for scroll-triggered animations
+ * - Respects prefers-reduced-motion (no animation for those users)
+ */
+function FadeInSection({
+  id,
+  ariaLabelledBy,
+  className,
+  children,
+  delay = 0,
+  direction = "up",
+}: FadeInSectionProps) {
+  const prefersReducedMotion = useReducedMotion();
+
+  const axis: "x" | "y" =
+    direction === "left" || direction === "right" ? "x" : "y";
+  const distance = 40;
+  const from =
+    direction === "up" || direction === "left" ? -distance : distance;
+
+  const ariaProps = ariaLabelledBy
+    ? { "aria-labelledby": ariaLabelledBy }
+    : {};
+
+  if (prefersReducedMotion) {
+    return (
+      <section id={id} className={className} {...ariaProps}>
+        {children}
+      </section>
+    );
+  }
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
+    <motion.section
+      id={id}
+      className={className}
+      initial={{ opacity: 0, [axis]: from }}
+      whileInView={{ opacity: 1, [axis]: 0 }}
+      viewport={{ once: true, amount: 0.25 }}
+      transition={{
+        duration: 0.6,
+        delay,
+        ease: [0.25, 0.1, 0.25, 1],
+      }}
+      {...ariaProps}
+    >
+      {children}
+    </motion.section>
+  );
+}
+
+export default function HomePage() {
+  return (
+    <div className="min-h-screen bg-slate-950 text-slate-100">
+      {/* Header / Nav */}
+      <header className="sticky top-0 z-20 border-b border-slate-800 bg-slate-950/80 backdrop-blur">
+        <nav className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
+          <span className="text-xs font-semibold tracking-[0.25em] uppercase text-slate-300">
+            Brody Broughton
+          </span>
+          <div className="flex gap-6">
             <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              href="#about"
+              className="text-[11px] font-medium uppercase tracking-[0.18em] text-slate-400 transition hover:text-white"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
+              About
+            </a>
             <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              href="#projects"
+              className="text-[11px] font-medium uppercase tracking-[0.18em] text-slate-400 transition hover:text-white"
             >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+              Projects
+            </a>
+            <a
+              href="#skills"
+              className="text-[11px] font-medium uppercase tracking-[0.18em] text-slate-400 transition hover:text-white"
+            >
+              Skills
+            </a>
+            <a
+              href="#contact"
+              className="text-[11px] font-medium uppercase tracking-[0.18em] text-slate-400 transition hover:text-white"
+            >
+              Contact
+            </a>
+          </div>
+        </nav>
+      </header>
+
+      <main className="mx-auto max-w-5xl px-4">
+        {/* Hero / About */}
+        <FadeInSection
+          id="about"
+          className="relative flex flex-col gap-10 py-16 md:flex-row md:items-center"
+          direction="up"
+        >
+          {/* Soft gradient background */}
+          <div className="pointer-events-none absolute inset-x-0 -top-32 -z-10 h-72 bg-gradient-to-b from-sky-500/10 via-slate-950 to-slate-950 blur-3xl" />
+
+          <div className="flex-1 space-y-6">
+            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-sky-400">
+              Portfolio
+            </p>
+            <h1 className="text-5xl font-semibold tracking-tight md:text-6xl">
+              Brody Broughton
+            </h1>
+            <p className="mt-2 text-xs uppercase tracking-[0.25em] text-slate-400">
+              Frontend Developer · Student
+            </p>
+            <p className="text-base leading-relaxed text-slate-300">
+              I&apos;m a{" "}
+              <span className="font-semibold text-sky-400">
+                frontend developer
+              </span>{" "}
+              who enjoys building clean, performant, and user-friendly web
+              experiences with React &amp; Next.js.
+            </p>
+            <p className="max-w-xl text-sm leading-relaxed text-slate-400">
+              Student at Jeffco Virtual Academy and the Warren Tech Computer
+              Science and Cybersecurity program. Passionate about coding,
+              technology, and continuous learning, and actively exploring
+              opportunities to apply my skills in real-world projects.
+            </p>
+            <p className="text-xs text-slate-500">
+              Currently open to opportunities where I can grow as a developer
+              and contribute to meaningful products.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <a
+                href="#projects"
+                className="rounded-full bg-sky-500 px-5 py-2 text-sm font-medium text-slate-950 transition hover:bg-sky-400 hover:-translate-y-0.5 hover:shadow-lg"
+              >
+                View Projects
+              </a>
+              <a
+                href="#contact"
+                className="rounded-full border border-slate-600 px-5 py-2 text-sm font-medium transition hover:border-sky-400 hover:-translate-y-0.5 hover:shadow-lg"
+              >
+                Contact Me
+              </a>
+            </div>
+          </div>
+
+          {/* Profile photo */}
+          <div className="relative mx-auto h-48 w-48 md:h-64 md:w-64 md:translate-y-2">
+            <div
+              className="absolute inset-0 rounded-3xl bg-sky-500/30 blur-3xl"
+              aria-hidden="true"
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            <div className="relative h-full w-full overflow-hidden rounded-3xl border border-slate-700/80 bg-slate-900 shadow-xl shadow-sky-500/10">
+              <Image
+                src="/profile.jpeg"
+                alt="Professional headshot of Brody Broughton"
+                fill
+                className="object-cover"
+              />
+            </div>
+          </div>
+        </FadeInSection>
+
+        {/* Projects */}
+        <FadeInSection
+          id="projects"
+          ariaLabelledBy="projects-heading"
+          className="border-t border-slate-900/60 py-16"
+          direction="right"
+          delay={0.05}
+        >
+          <h2
+            id="projects-heading"
+            className="text-2xl font-semibold tracking-tight"
           >
-            Documentation
-          </a>
-        </div>
+            Projects
+          </h2>
+          <p className="mt-2 text-sm text-slate-400">
+            A selection of projects that highlight my skills, interests, and the
+            technologies I enjoy working with.
+          </p>
+
+          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {projects.map((project) => (
+              <article
+                key={project.title}
+                className="group flex flex-col rounded-2xl border border-slate-800 bg-slate-900/60 p-5 shadow-sm shadow-slate-950/40 transition-transform transition-shadow hover:-translate-y-1 hover:border-sky-500/60 hover:shadow-lg hover:shadow-sky-500/20"
+              >
+                <header className="flex items-center justify-between gap-2">
+                  <h3 className="text-base font-semibold text-slate-100">
+                    {project.title}
+                  </h3>
+                  <span className="text-[10px] uppercase tracking-[0.2em] text-slate-500">
+                    Project
+                  </span>
+                </header>
+
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-300">
+                  {project.description}
+                </p>
+
+                <ul className="mt-4 flex flex-wrap gap-1.5 text-[11px] text-sky-300">
+                  {project.tech.map((t) => (
+                    <li
+                      key={t}
+                      className="rounded-full border border-sky-500/30 bg-sky-500/5 px-2 py-0.5"
+                    >
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+
+                <a
+                  href={project.link}
+                  className="mt-4 inline-flex items-center text-sm font-medium text-sky-400 transition group-hover:text-sky-300"
+                >
+                  View project
+                  <span
+                    aria-hidden
+                    className="ml-1 transition-transform group-hover:translate-x-0.5"
+                  >
+                    →
+                  </span>
+                </a>
+              </article>
+            ))}
+          </div>
+        </FadeInSection>
+
+        {/* Skills */}
+        <FadeInSection
+          id="skills"
+          ariaLabelledBy="skills-heading"
+          className="border-t border-slate-900/60 py-16"
+          direction="left"
+          delay={0.05}
+        >
+          <h2
+            id="skills-heading"
+            className="text-2xl font-semibold tracking-tight"
+          >
+            Skills
+          </h2>
+          <p className="mt-2 text-sm text-slate-400">
+            Technologies, tools, and platforms I work with regularly.
+          </p>
+
+          <div className="mt-6 grid gap-6 md:grid-cols-3">
+            {skills.map(({ category, icon, items }) => (
+              <div
+                key={category}
+                className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5"
+              >
+                <h3 className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-slate-200">
+                  <span aria-hidden>{icon}</span>
+                  <span>{category}</span>
+                </h3>
+                <ul className="mt-3 flex flex-wrap gap-2">
+                  {items.map((skill) => (
+                    <li
+                      key={skill}
+                      className="rounded-full bg-slate-800/80 px-3 py-1 text-xs text-slate-200"
+                    >
+                      {skill}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </FadeInSection>
+
+        {/* Contact */}
+        <FadeInSection
+          id="contact"
+          ariaLabelledBy="contact-heading"
+          className="border-t border-slate-900/60 py-16"
+          direction="up"
+          delay={0.05}
+        >
+          <h2
+            id="contact-heading"
+            className="text-2xl font-semibold tracking-tight"
+          >
+            Contact
+          </h2>
+          <p className="mt-2 text-sm text-slate-400">
+            Want to get in contact? I&apos;d be happy to connect.
+          </p>
+
+          <div className="mt-6 rounded-2xl border border-slate-800 bg-slate-900/60 p-6">
+            <span className="inline-flex items-center rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-300">
+              ● Open to opportunities
+            </span>
+            <p className="mt-4 text-sm leading-relaxed text-slate-300">
+              The best way to reach me is by email. Feel free to get in touch
+              with questions, collaboration ideas, or opportunities. You can
+              contact me at:
+            </p>
+            <p className="mt-3 text-sm font-medium text-sky-400">
+              broughton.brody07@gmail.com
+            </p>
+            <p className="mt-3 text-xs text-slate-500">
+              I aim to respond as soon as possible and appreciate your interest
+              in connecting.
+            </p>
+          </div>
+        </FadeInSection>
       </main>
+
+      {/* Footer */}
+      <footer className="border-t border-slate-800 bg-slate-950/80">
+        <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-3 px-4 py-6 text-xs text-slate-500 md:flex-row">
+          <p>
+            &copy; {new Date().getFullYear()} Brody Broughton. All rights
+            reserved.
+          </p>
+          <div className="flex gap-3">
+            <a
+              href="https://github.com/brodyBroughton"
+              className="rounded-full border border-slate-700/80 px-3 py-1.5 text-[11px] uppercase tracking-[0.16em] text-slate-300 transition hover:border-sky-500/60 hover:text-sky-300"
+            >
+              GitHub
+            </a>
+            <a
+              href="https://www.linkedin.com/in/brodybroughton/"
+              className="rounded-full border border-slate-700/80 px-3 py-1.5 text-[11px] uppercase tracking-[0.16em] text-slate-300 transition hover:border-sky-500/60 hover:text-sky-300"
+            >
+              LinkedIn
+            </a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
