@@ -4,6 +4,7 @@
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import type { ReactNode } from "react";
+import { useState } from "react";
 
 const projects = [
   {
@@ -110,15 +111,35 @@ function FadeInSection({
 }
 
 export default function HomePage() {
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+
+  const toggleMobileNav = () => {
+    setMobileNavOpen((prev) => !prev);
+  };
+
+  const closeMobileNav = () => setMobileNavOpen(false);
+
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
       {/* Header / Nav */}
-      <header className="sticky top-0 z-20 border-b border-slate-800 bg-slate-950/80 backdrop-blur">
+      <header className="sticky top-0 z-30 border-b border-slate-800 bg-slate-950/80 backdrop-blur">
         <nav className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
-          <span className="text-xs font-semibold tracking-[0.25em] uppercase text-slate-300">
+          {/* Brand */}
+          <button
+            className="text-xs font-semibold tracking-[0.25em] uppercase text-slate-300"
+            onClick={() => {
+              // scroll to top on brand click
+              if (typeof window !== "undefined") {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }
+              closeMobileNav();
+            }}
+          >
             Brody Broughton
-          </span>
-          <div className="flex gap-6">
+          </button>
+
+          {/* Desktop nav */}
+          <div className="hidden gap-6 md:flex">
             <a
               href="#about"
               className="text-[11px] font-medium uppercase tracking-[0.18em] text-slate-400 transition hover:text-white"
@@ -144,7 +165,75 @@ export default function HomePage() {
               Contact
             </a>
           </div>
+
+          {/* Mobile nav toggle */}
+          <button
+            type="button"
+            className="inline-flex items-center justify-center rounded-full border border-slate-700 px-2.5 py-2 text-slate-200 transition hover:border-sky-500/60 hover:text-sky-300 md:hidden"
+            aria-label="Toggle navigation"
+            aria-expanded={mobileNavOpen}
+            aria-controls="mobile-menu"
+            onClick={toggleMobileNav}
+          >
+            <span className="sr-only">Open main menu</span>
+            <span className="flex flex-col gap-1.5">
+              <span
+                className={`block h-0.5 w-5 rounded-full bg-current transition-transform ${
+                  mobileNavOpen ? "translate-y-1.5 rotate-45" : ""
+                }`}
+              />
+              <span
+                className={`block h-0.5 w-5 rounded-full bg-current transition-all ${
+                  mobileNavOpen ? "opacity-0" : "opacity-100"
+                }`}
+              />
+              <span
+                className={`block h-0.5 w-5 rounded-full bg-current transition-transform ${
+                  mobileNavOpen ? "-translate-y-1.5 -rotate-45" : ""
+                }`}
+              />
+            </span>
+          </button>
         </nav>
+
+        {/* Mobile nav panel */}
+        <div
+          id="mobile-menu"
+          className={`md:hidden border-t border-slate-800 bg-slate-950/95 backdrop-blur-sm transition-[max-height,opacity] duration-300 ${
+            mobileNavOpen ? "max-h-48 opacity-100" : "max-h-0 opacity-0"
+          } overflow-hidden`}
+        >
+          <div className="mx-auto flex max-w-5xl flex-col space-y-1 px-4 py-3 text-sm">
+            <a
+              href="#about"
+              className="rounded-md px-2 py-2 text-slate-300 hover:bg-slate-800/70 hover:text-white"
+              onClick={closeMobileNav}
+            >
+              About
+            </a>
+            <a
+              href="#projects"
+              className="rounded-md px-2 py-2 text-slate-300 hover:bg-slate-800/70 hover:text-white"
+              onClick={closeMobileNav}
+            >
+              Projects
+            </a>
+            <a
+              href="#skills"
+              className="rounded-md px-2 py-2 text-slate-300 hover:bg-slate-800/70 hover:text-white"
+              onClick={closeMobileNav}
+            >
+              Skills
+            </a>
+            <a
+              href="#contact"
+              className="rounded-md px-2 py-2 text-slate-300 hover:bg-slate-800/70 hover:text-white"
+              onClick={closeMobileNav}
+            >
+              Contact
+            </a>
+          </div>
+        </div>
       </header>
 
       <main className="mx-auto max-w-5xl px-4">
