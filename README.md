@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio
+
+A polished single-page portfolio built with Next.js that highlights Brody Broughton’s work, skills, and contact details. The site uses animated sections, responsive navigation, and a clean dark theme to deliver a professional presentation.
+
+## Features
+- **Hero & About**: Clear introduction with role, tagline, and calls to action for projects and contact.
+- **Projects Grid**: Cards for Veilscope, a local network chat app, and a shell note-taking tool, each with tech tags and external links.
+- **Skills by Category**: Frontend, backend, and tooling skills displayed as labeled chips for quick scanning.
+- **Contact Card**: Email-first contact section with availability indicator and response expectation.
+- **Responsive Navigation**: Desktop links, animated mobile menu, and smooth scrolling.
+- **Motion with A11y Considerations**: Section fade/slide animations using Framer Motion that respect `prefers-reduced-motion`.
+
+## Tech Stack
+- [Next.js 16](https://nextjs.org/)
+- [React 19](https://react.dev/)
+- [Framer Motion](https://www.framer.com/motion/)
+- Tailwind CSS utilities (Next.js built-in styling pipeline)
+- TypeScript
 
 ## Getting Started
+1. **Install dependencies**
+   ```bash
+   npm install
+   ```
+2. **Run the development server**
+   ```bash
+   npm run dev
+   ```
+3. Open http://localhost:3000 to view the portfolio. Edits to `app/page.tsx` hot-reload in the browser.
 
-First, run the development server:
+## Available Scripts
+- `npm run dev` &mdash; start the Next.js dev server.
+- `npm run build` &mdash; create an optimized production build.
+- `npm start` &mdash; serve the production build.
+- `npm run lint` &mdash; run ESLint.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Content Overview
+- **Projects**: Defined in `projects` array in `app/page.tsx`.
+- **Skills**: Defined in `skills` array in `app/page.tsx`.
+- **Sections**: Hero/About, Projects, Skills, Contact, and Footer are composed in `HomePage` within `app/page.tsx`.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deployment
+Deploy on any Next.js-compatible host (e.g., Vercel). Build with `npm run build` and serve with `npm start`.
