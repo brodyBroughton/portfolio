@@ -59,9 +59,9 @@ type FadeInSectionProps = {
 
 /**
  * FadeInSection
- * - Slides + fades content in when it enters the viewport
+ * - Slides and fades content in when it enters the viewport
  * - Uses whileInView + viewport.once for scroll-triggered animations
- * - Respects prefers-reduced-motion (no animation for those users)
+ * - Respects prefers-reduced-motion to avoid animations for those users
  */
 function FadeInSection({
   id,
@@ -121,14 +121,14 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
-      {/* Header / Nav */}
+      {/* Site header and navigation */}
       <header className="sticky top-0 z-30 border-b border-slate-800 bg-slate-950/80 backdrop-blur">
         <nav className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
-          {/* Brand */}
+          {/* Brand link to scroll to top */}
           <button
             className="text-xs font-semibold tracking-[0.25em] uppercase text-slate-300"
             onClick={() => {
-              // scroll to top on brand click
+              // Scroll to top when the brand is clicked
               if (typeof window !== "undefined") {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }
@@ -138,7 +138,7 @@ export default function HomePage() {
             Brody Broughton
           </button>
 
-          {/* Desktop nav */}
+          {/* Desktop navigation links */}
           <div className="hidden gap-6 md:flex">
             <a
               href="#about"
@@ -166,7 +166,7 @@ export default function HomePage() {
             </a>
           </div>
 
-          {/* Mobile nav toggle */}
+          {/* Mobile navigation toggle */}
           <button
             type="button"
             className="inline-flex items-center justify-center rounded-full border border-slate-700 px-2.5 py-2 text-slate-200 transition hover:border-sky-500/60 hover:text-sky-300 md:hidden"
@@ -196,7 +196,7 @@ export default function HomePage() {
           </button>
         </nav>
 
-        {/* Mobile nav panel */}
+        {/* Mobile navigation panel */}
         <div
           id="mobile-menu"
           className={`md:hidden border-t border-slate-800 bg-slate-950/95 backdrop-blur-sm transition-[max-height,opacity] duration-300 ${
@@ -237,13 +237,13 @@ export default function HomePage() {
       </header>
 
       <main className="mx-auto max-w-5xl px-4">
-        {/* Hero / About */}
+        {/* Hero and about section */}
         <FadeInSection
           id="about"
           className="relative flex flex-col gap-10 py-16 md:flex-row md:items-center"
           direction="up"
         >
-          {/* Soft gradient background */}
+          {/* Decorative gradient background */}
           <div className="pointer-events-none absolute inset-x-0 -top-32 -z-10 h-72 bg-gradient-to-b from-sky-500/10 via-slate-950 to-slate-950 blur-3xl" />
 
           <div className="flex-1 space-y-6">
@@ -290,7 +290,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Profile photo */}
+          {/* Profile photo container */}
           <div className="relative mx-auto h-48 w-48 md:h-64 md:w-64 md:translate-y-2">
             <div
               className="absolute inset-0 rounded-3xl bg-sky-500/30 blur-3xl"
@@ -307,7 +307,7 @@ export default function HomePage() {
           </div>
         </FadeInSection>
 
-        {/* Projects */}
+        {/* Projects showcase */}
         <FadeInSection
           id="projects"
           ariaLabelledBy="projects-heading"
@@ -373,7 +373,7 @@ export default function HomePage() {
           </div>
         </FadeInSection>
 
-        {/* Skills */}
+        {/* Skills overview */}
         <FadeInSection
           id="skills"
           ariaLabelledBy="skills-heading"
@@ -416,7 +416,7 @@ export default function HomePage() {
           </div>
         </FadeInSection>
 
-        {/* Contact */}
+        {/* Contact information */}
         <FadeInSection
           id="contact"
           ariaLabelledBy="contact-heading"
@@ -454,7 +454,7 @@ export default function HomePage() {
         </FadeInSection>
       </main>
 
-      {/* Footer */}
+      {/* Site footer */}
       <footer className="border-t border-slate-800 bg-slate-950/80">
         <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-3 px-4 py-6 text-xs text-slate-500 md:flex-row">
           <p>
