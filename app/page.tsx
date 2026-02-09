@@ -47,6 +47,7 @@ const skills = [
     items: ["Git & GitHub", "VS Code", "Figma", "Vercel"],
   },
 ];
+const resumeUrl = "/Resume.pdf";
 
 type FadeInSectionProps = {
   id?: string;
@@ -164,6 +165,12 @@ export default function HomePage() {
             >
               Contact
             </a>
+            <a
+              href="#resume"
+              className="text-[11px] font-medium uppercase tracking-[0.18em] text-slate-400 transition hover:text-white"
+            >
+              Resume
+            </a>
           </div>
 
           {/* Mobile navigation toggle */}
@@ -232,6 +239,13 @@ export default function HomePage() {
             >
               Contact
             </a>
+            <a
+              href="#resume"
+              className="rounded-md px-2 py-2 text-slate-300 hover:bg-slate-800/70 hover:text-white"
+              onClick={closeMobileNav}
+            >
+              Resume
+            </a>
           </div>
         </div>
       </header>
@@ -280,6 +294,12 @@ export default function HomePage() {
                 className="rounded-full bg-sky-500 px-5 py-2 text-sm font-medium text-slate-950 transition hover:bg-sky-400 hover:-translate-y-0.5 hover:shadow-lg"
               >
                 View Projects
+              </a>
+              <a
+                href={resumeUrl}
+                className="rounded-full border border-slate-600 px-5 py-2 text-sm font-medium transition hover:border-sky-400 hover:-translate-y-0.5 hover:shadow-lg"
+              >
+                Download Resume
               </a>
               <a
                 href="#contact"
@@ -413,6 +433,53 @@ export default function HomePage() {
                 </ul>
               </div>
             ))}
+          </div>
+        </FadeInSection>
+
+        {/* Resume preview */}
+        <FadeInSection
+          id="resume"
+          ariaLabelledBy="resume-heading"
+          className="border-t border-slate-900/60 py-16"
+          direction="up"
+          delay={0.05}
+        >
+          <h2
+            id="resume-heading"
+            className="text-2xl font-semibold tracking-tight"
+          >
+            Resume
+          </h2>
+          <p className="mt-2 text-sm text-slate-400">
+            Preview my resume below or download the full PDF.
+          </p>
+
+          <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+            <div className="overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/60">
+              <iframe
+                title="Resume preview"
+                src={`${resumeUrl}#page=1&view=FitH`}
+                className="h-[560px] w-full"
+              />
+            </div>
+            <div className="flex flex-col gap-4 rounded-2xl border border-slate-800 bg-slate-900/60 p-6">
+              <p className="text-sm leading-relaxed text-slate-300">
+                The preview focuses on the first page to keep the layout clean.
+                Use the button below to download the complete PDF.
+              </p>
+              <a
+                href={resumeUrl}
+                className="inline-flex items-center justify-center rounded-full bg-sky-500 px-5 py-2 text-sm font-medium text-slate-950 transition hover:bg-sky-400 hover:-translate-y-0.5 hover:shadow-lg"
+              >
+                Download Resume
+              </a>
+              <a
+                href={resumeUrl}
+                className="inline-flex items-center justify-center rounded-full border border-slate-600 px-5 py-2 text-sm font-medium transition hover:border-sky-400 hover:-translate-y-0.5 hover:shadow-lg"
+              >
+                Open in New Tab
+              </a>
+            </div>
           </div>
         </FadeInSection>
 
